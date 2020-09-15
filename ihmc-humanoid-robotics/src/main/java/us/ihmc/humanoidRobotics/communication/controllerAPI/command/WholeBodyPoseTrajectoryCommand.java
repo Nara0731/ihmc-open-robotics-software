@@ -42,6 +42,21 @@ public class WholeBodyPoseTrajectoryCommand implements Command<WholeBodyPoseTraj
       return WholeBodyPoseTrajectoryMessage.class;
    }
 
+   public double getTrajectoryDuration()
+   {
+      return trajectoryDuration;
+   }
+
+   public TDoubleArrayList getJointAngles()
+   {
+      return jointAngles;
+   }
+
+   public Pose3D getPelvisPose()
+   {
+      return pelvisPose;
+   }
+
    @Override
    public boolean isCommandValid()
    {
