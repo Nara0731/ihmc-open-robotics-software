@@ -19,6 +19,7 @@ public class WholeBodyPoseTrajectoryMessage extends Packet<WholeBodyPoseTrajecto
    public double trajectory_duration_;
    public us.ihmc.idl.IDLSequence.Double  joint_angles_;
    public us.ihmc.euclid.geometry.Pose3D pelvis_pose_;
+   public int joint_name_hash_;
 
    public WholeBodyPoseTrajectoryMessage()
    {
@@ -41,6 +42,8 @@ public class WholeBodyPoseTrajectoryMessage extends Packet<WholeBodyPoseTrajecto
 
       joint_angles_.set(other.joint_angles_);
       geometry_msgs.msg.dds.PosePubSubType.staticCopy(other.pelvis_pose_, pelvis_pose_);
+      joint_name_hash_ = other.joint_name_hash_;
+
    }
 
    /**
@@ -79,6 +82,15 @@ public class WholeBodyPoseTrajectoryMessage extends Packet<WholeBodyPoseTrajecto
       return pelvis_pose_;
    }
 
+   public void setJointNameHash(int joint_name_hash)
+   {
+      joint_name_hash_ = joint_name_hash;
+   }
+   public int getJointNameHash()
+   {
+      return joint_name_hash_;
+   }
+
 
    public static Supplier<WholeBodyPoseTrajectoryMessagePubSubType> getPubSubType()
    {
@@ -104,6 +116,8 @@ public class WholeBodyPoseTrajectoryMessage extends Packet<WholeBodyPoseTrajecto
       if (!us.ihmc.idl.IDLTools.epsilonEqualsDoubleSequence(this.joint_angles_, other.joint_angles_, epsilon)) return false;
 
       if (!this.pelvis_pose_.epsilonEquals(other.pelvis_pose_, epsilon)) return false;
+      if (!us.ihmc.idl.IDLTools.epsilonEqualsPrimitive(this.joint_name_hash_, other.joint_name_hash_, epsilon)) return false;
+
 
       return true;
    }
@@ -123,6 +137,8 @@ public class WholeBodyPoseTrajectoryMessage extends Packet<WholeBodyPoseTrajecto
 
       if (!this.joint_angles_.equals(otherMyClass.joint_angles_)) return false;
       if (!this.pelvis_pose_.equals(otherMyClass.pelvis_pose_)) return false;
+      if(this.joint_name_hash_ != otherMyClass.joint_name_hash_) return false;
+
 
       return true;
    }
@@ -140,7 +156,9 @@ public class WholeBodyPoseTrajectoryMessage extends Packet<WholeBodyPoseTrajecto
       builder.append("joint_angles=");
       builder.append(this.joint_angles_);      builder.append(", ");
       builder.append("pelvis_pose=");
-      builder.append(this.pelvis_pose_);
+      builder.append(this.pelvis_pose_);      builder.append(", ");
+      builder.append("joint_name_hash=");
+      builder.append(this.joint_name_hash_);
       builder.append("}");
       return builder.toString();
    }

@@ -23,6 +23,7 @@ module controller_msgs
         double trajectory_duration;
         sequence<double, 50> joint_angles;
         geometry_msgs::msg::dds::Pose pelvis_pose;
+        long joint_name_hash;
       };
     };
   };

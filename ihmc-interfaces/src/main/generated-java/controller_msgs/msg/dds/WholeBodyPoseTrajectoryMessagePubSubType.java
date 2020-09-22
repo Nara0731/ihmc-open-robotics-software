@@ -48,6 +48,8 @@ public class WholeBodyPoseTrajectoryMessagePubSubType implements us.ihmc.pubsub.
 
       current_alignment += geometry_msgs.msg.dds.PosePubSubType.getMaxCdrSerializedSize(current_alignment);
 
+      current_alignment += 4 + us.ihmc.idl.CDR.alignment(current_alignment, 4);
+
 
       return current_alignment - initial_alignment;
    }
@@ -73,6 +75,9 @@ public class WholeBodyPoseTrajectoryMessagePubSubType implements us.ihmc.pubsub.
 
       current_alignment += geometry_msgs.msg.dds.PosePubSubType.getCdrSerializedSize(data.getPelvisPose(), current_alignment);
 
+      current_alignment += 4 + us.ihmc.idl.CDR.alignment(current_alignment, 4);
+
+
 
       return current_alignment - initial_alignment;
    }
@@ -88,6 +93,8 @@ public class WholeBodyPoseTrajectoryMessagePubSubType implements us.ihmc.pubsub.
           throw new RuntimeException("joint_angles field exceeds the maximum length");
 
       geometry_msgs.msg.dds.PosePubSubType.write(data.getPelvisPose(), cdr);
+      cdr.write_type_2(data.getJointNameHash());
+
    }
 
    public static void read(controller_msgs.msg.dds.WholeBodyPoseTrajectoryMessage data, us.ihmc.idl.CDR cdr)
@@ -98,6 +105,8 @@ public class WholeBodyPoseTrajectoryMessagePubSubType implements us.ihmc.pubsub.
       	
       cdr.read_type_e(data.getJointAngles());	
       geometry_msgs.msg.dds.PosePubSubType.read(data.getPelvisPose(), cdr);	
+      data.setJointNameHash(cdr.read_type_2());
+      	
 
    }
 
@@ -109,6 +118,7 @@ public class WholeBodyPoseTrajectoryMessagePubSubType implements us.ihmc.pubsub.
       ser.write_type_e("joint_angles", data.getJointAngles());
       ser.write_type_a("pelvis_pose", new geometry_msgs.msg.dds.PosePubSubType(), data.getPelvisPose());
 
+      ser.write_type_2("joint_name_hash", data.getJointNameHash());
    }
 
    @Override
@@ -119,6 +129,7 @@ public class WholeBodyPoseTrajectoryMessagePubSubType implements us.ihmc.pubsub.
       ser.read_type_e("joint_angles", data.getJointAngles());
       ser.read_type_a("pelvis_pose", new geometry_msgs.msg.dds.PosePubSubType(), data.getPelvisPose());
 
+      data.setJointNameHash(ser.read_type_2("joint_name_hash"));
    }
 
    public static void staticCopy(controller_msgs.msg.dds.WholeBodyPoseTrajectoryMessage src, controller_msgs.msg.dds.WholeBodyPoseTrajectoryMessage dest)

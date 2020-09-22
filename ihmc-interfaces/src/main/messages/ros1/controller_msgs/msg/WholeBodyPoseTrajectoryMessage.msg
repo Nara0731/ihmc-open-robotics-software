@@ -10,4 +10,6 @@ float64[] joint_angles
 
 geometry_msgs/Pose pelvis_pose
 
+int32 joint_name_hash
+
 

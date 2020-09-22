@@ -7,3 +7,4 @@ uint32 sequence_id
 float64 trajectory_duration
 float64[<=50] joint_angles
 geometry_msgs/Pose pelvis_pose
+int32 joint_name_hash
